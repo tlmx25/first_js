@@ -1,8 +1,10 @@
 // const response = await fetch("pieces-autos.json");
 // const pieces = await response.json();
-const pieces = await fetch("pieces-autos.json").then((pieces) => pieces.json());
+const pieces = await fetch("http://localhost:8081/pieces").then((pieces) => pieces.json());
 
+import { ajoutListenersAvis, listenerEventForm } from "./avis.js";
 // const article = pieces[2];
+listenerEventForm();
 function genererPieces(pieces) {
   for (let article of pieces) {
     const sectionFiches = document.querySelector(".fiches");
@@ -28,6 +30,10 @@ function genererPieces(pieces) {
     }`;
     dispoElement.classList.add("in_stock");
 
+    const avisBouton = document.createElement("button");
+    avisBouton.dataset.id = article.id;
+    avisBouton.textContent = "Afficher les avis"
+
     sectionFiches.appendChild(piecesElement);
     piecesElement.appendChild(imageElement);
     piecesElement.appendChild(nomElement);
@@ -35,7 +41,9 @@ function genererPieces(pieces) {
     piecesElement.appendChild(categorieElement);
     piecesElement.appendChild(descriptionElement);
     piecesElement.appendChild(dispoElement);
+    piecesElement.appendChild(avisBouton);
   }
+  ajoutListenersAvis()
 }
 
 const buttonTree = document.querySelector(".btntree");
@@ -91,3 +99,4 @@ rangeBar.addEventListener("input", function (){
   document.querySelector(".fiches").innerHTML = "";
   genererPieces(arrayTree);
 });
+
